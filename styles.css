@@ -1,0 +1,1686 @@
+@font-face{
+  font-family: "DazzedRegular";
+  src: url("Fonts/Dazzed-TRIAL-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face{
+  font-family: "DazzedBold";
+  src: url("Fonts/Dazzed-TRIAL-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face{
+  font-family: "DazzedThinItalic";
+  src: url("Fonts/Dazzed-TRIAL-RegularItalic.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face{
+  font-family: "DazzedHeavy";
+  src: url("Fonts/Dazzed-TRIAL-Heavy.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Tokens ---------- */
+:root{
+  --size-body: 22px;
+  --size-scene: 15px;
+  --size-stage: 17px;
+
+  --lh: 1.32;
+
+  --unit-gap: 0.20em;
+  --stage-gap: 0.06em;
+
+  --page-pad: 16px;
+  --col-pad: 8px;
+  --max-col: 1400px;
+
+  --bg: #edece2eb;
+  --loc: #061518;
+  --base-text: #84837C;
+  --stage: #5C5854;
+  --joel: #0768AF;
+  --clementine: #F49426;
+
+  --meta: var(--loc);
+  --text: var(--base-text);
+  --tl-text: var(--base-text);
+
+  --fade: 0.15;
+
+  --tl-fill: rgba(6, 21, 24, 0.22);
+  --tl-handle: rgba(6, 21, 24, 0.55);
+
+  --title-left: 36px;
+  --title-top: 84px;
+  --title-size: clamp(64px, 9vw, 150px);
+  --title-lh: 0.92;
+  --title-track: -0.02em;
+
+  --script-push-up: 18px;
+
+  --pill-bg: #edece26b;
+  --pill-bg-hover: rgba(6, 21, 24, 0.08);
+  --pill-text: var(--base-text);
+  --pill-text-hover: rgba(6, 21, 24, 0.92);
+  --pill-blur: 8px;
+
+  --sceneMenuW: auto;
+
+  --credits-bg: #061518;
+  --credits-fg: #edece2eb;
+
+  --credits-top: 140px;
+  --credits-right: 170px;
+
+  --credits-size: 16px;
+  --credits-lh: 1.65;
+  --credits-track: 0.01em;
+
+  /* hero-entry tokens */
+  --paper: #EDECE2;
+  --hero-font: "DazzedBold";
+  --ui-font: "DazzedRegular";
+
+  /* (1) הזזה שמאלה: תדייקי כאן */
+  --hero-scene-x: 38vw; /* היה 43.6vw */
+  --hero-scene-y: 20vh;
+
+  /* שמות ליד הטוגל */
+  --mode-name-size: 14px;
+  --mode-name-gap: 12px;
+}
+
+/* =========================
+   Base
+   ========================= */
+html, body{
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* =========================
+   HERO (static / no intro)
+   ========================= */
+.hero{
+  position: relative;
+  height: 100svh;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.hero-title{
+  position: absolute;
+  top: var(--title-top);
+  left: var(--title-left);
+  margin: 0;
+
+  color: var(--loc);
+
+  font-family: "DazzedBold", system-ui, sans-serif;
+  font-weight: 700;
+
+  letter-spacing: var(--title-track);
+  line-height: var(--title-lh);
+  font-size: var(--title-size);
+}
+
+.hero-hint{ display: none !important; }
+
+/* bottom center label */
+.hero-bottom-center{
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(6, 21, 24, 0.72);
+
+  user-select: none;
+  pointer-events: none;
+}
+
+/* right texts */
+.hero-draft{
+  position: absolute;
+  right: 36px;
+  bottom: 145px;
+
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+
+  color: rgba(6, 21, 24, 0.62);
+
+  text-align: right;
+  user-select: none;
+  pointer-events: none;
+}
+
+.hero-happy{
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+
+  font-family: "DazzedBold", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(64px, 9vw, 150px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+
+  color: #D6D6CC;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+.hero-happy:hover{ color: #061518; }
+
+.hero-you{
+  color: #061518;
+  cursor: default;
+}
+
+/* =========================
+   Script
+   ========================= */
+.script-wrap{
+  background: transparent;
+  color: var(--text);
+}
+
+.script{
+  width: 100%;
+  padding: 26px var(--page-pad);
+  box-sizing: border-box;
+
+  text-align: justify;
+  text-align-last: left;
+
+  padding-top: calc(26px - var(--script-push-up));
+}
+
+body.has-hero .script{
+  margin-top: 0;
+  padding-top: calc(36px - var(--script-push-up));
+}
+
+.text-block{
+  display: block;
+  width: 100%;
+  max-width: var(--max-col);
+  margin: 0 auto;
+  padding: 0 var(--col-pad);
+
+  font-size: var(--size-body);
+  line-height: var(--lh);
+
+  text-align: justify;
+  text-align-last: left;
+
+  hyphens: auto;
+  overflow-wrap: anywhere;
+  word-break: normal;
+
+  padding-bottom: 650px;
+}
+
+.scene,
+.unit,
+.unit-heading,
+.unit-stage,
+.unit-speech{
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.unit{
+  opacity: var(--fade);
+  transition: color 120ms linear, opacity 120ms linear, background-color 120ms linear;
+  cursor: pointer;
+}
+.unit:hover,
+.unit.active{
+  opacity: 1;
+}
+
+.unit-heading{
+  font-family: "DazzedBold", system-ui, sans-serif;
+  font-weight: 400;
+  opacity: 1;
+  color: var(--loc);
+  font-size: var(--size-scene);
+  padding-right: calc(var(--unit-gap) * 0.8);
+}
+
+.unit-speech{
+  font-family: "DazzedBold", system-ui, sans-serif;
+  font-weight: 700;
+  padding-right: var(--unit-gap);
+  color: var(--base-text);
+}
+
+.unit-speech.joel:hover,
+.unit-speech.joel.active{ color: var(--joel); }
+
+.unit-speech.clementine:hover,
+.unit-speech.clementine.active{ color: var(--clementine); }
+
+.unit-stage{
+  font-family: "DazzedThinItalic", system-ui, sans-serif;
+  font-weight: 100;
+  font-style: italic;
+
+  opacity: 0.80;
+  color: var(--stage);
+  font-size: var(--size-stage);
+  line-height: 1.12;
+
+  pointer-events: none;
+  cursor: default;
+
+  padding-right: var(--stage-gap);
+}
+
+.char,
+.meta{ display: none !important; }
+
+.scene{
+  opacity: 1;
+  filter: none;
+  transition: none;
+  will-change: auto;
+}
+
+/* =========================
+   TOP BAR
+   ========================= */
+.topbar{
+  position: fixed;
+  top: 28px;
+  left: 18px;
+  right: 18px;
+  z-index: 1000002;
+
+  /* CHANGED: prevent center shift when right side changes */
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  justify-content: initial;
+
+  pointer-events: none;
+}
+
+.topbar-left,
+.topbar-center,
+.topbar-right{
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+}
+
+/* CHANGED: lock sides + true center */
+.topbar-left{ justify-self: start; }
+.topbar-center{ justify-self: center; }
+.topbar-right{ justify-self: end; }
+
+/* pills */
+.pill,
+#tlMovieTime,
+#tlPlay,
+#tlScene,
+#tlHandle{
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+
+  background: var(--pill-bg);
+  backdrop-filter: blur(var(--pill-blur));
+  -webkit-backdrop-filter: blur(var(--pill-blur));
+
+  border-radius: 999px;
+}
+
+#tlPlay:hover,
+#tlScene:hover,
+#tlMovieTime:hover,
+#tlHandle:hover{
+  background: var(--pill-bg-hover);
+}
+
+#tlMovieTime{
+  appearance: none;
+  -webkit-appearance: none;
+
+  padding: 10px 14px;
+  color: rgba(6, 21, 24, 0.62);
+
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+
+  user-select: none;
+  cursor: pointer;
+}
+
+/* =========================
+   MODEBAR (names + centered switch)
+   ========================= */
+.modebar{
+  position: fixed;
+  top: 28px;
+  left: 0;
+  right: 0;
+  z-index: 1000006;
+
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-radius: 0;
+
+  pointer-events: none;
+
+  display: grid;
+  grid-template-columns: 1fr 66px 1fr;
+  align-items: center;
+
+  padding: 0 18px;
+}
+
+/* השמות ליד הטוגל */
+.modebar-name{
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: var(--mode-name-size); /* (תוקן) */
+  letter-spacing: 0.01em;
+  line-height: 1;
+
+  color: rgba(6, 21, 24, 0.55);
+
+  user-select: none;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* (2) כשהתחלת לגלול – השמות נעלמים, הטוגל נשאר */
+body.ui-scrolled .modebar-name{
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-2px);
+  transition: opacity 140ms linear, transform 140ms ease, visibility 0s linear 140ms;
+}
+
+/* כשהם חוזרים (למעלה) */
+.modebar-name{
+  transition: opacity 140ms linear, transform 140ms ease;
+}
+
+.modebar-name.left{
+  grid-column: 1;
+  justify-self: end;
+  margin-right: var(--mode-name-gap);
+  text-align: right;
+}
+
+.modebar-name.right{
+  grid-column: 3;
+  justify-self: start;
+  margin-left: var(--mode-name-gap);
+  text-align: left;
+}
+
+/* הסוויץ' עצמו */
+.modebar-switch.tri{
+  grid-column: 2;
+
+  position: relative;
+  width: 66px;
+  height: 26px;
+  display: block;
+  line-height: 0;
+
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+
+  background: var(--pill-bg);
+  backdrop-filter: blur(var(--pill-blur));
+  -webkit-backdrop-filter: blur(var(--pill-blur));
+  border-radius: 999px;
+
+  pointer-events: auto;
+}
+
+.modebar-switch.tri:hover{
+  background: var(--pill-bg-hover);
+}
+
+.modebar-switch.tri input{
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.modebar-track{
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: rgba(6, 21, 24, 0.10);
+  border: 0;
+  z-index: 1;
+}
+
+.modebar-thumb{
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+
+  transform: translate3d(0, -50%, 0);
+  background: rgba(6, 21, 24, 0.70);
+  transition: left 160ms ease;
+
+  left: calc(50% - 9px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+body.mode-left  .modebar-thumb{ left: 5px; }
+body.mode-mid   .modebar-thumb{ left: calc(50% - 9px); }
+body.mode-right .modebar-thumb{ left: calc(100% - 5px - 18px); }
+
+/* Scene button */
+.tl-scene-wrap{
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#tlScene{
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 10px 14px;
+
+  color: var(--pill-text);
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+
+  cursor: pointer;
+  transition: transform 120ms ease, color 120ms linear, background 120ms linear;
+}
+#tlScene:hover{ color: var(--pill-text-hover); }
+#tlScene:active{ transform: translateY(1px); }
+
+.topbar,
+.topbar *{ -webkit-tap-highlight-color: transparent; }
+
+/* =========================
+   ERASE MODES (NO REFLOW)
+   ========================= */
+body.erase-clem .unit-speech,
+body.erase-joel .unit-speech{
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: auto;
+}
+
+body.erase-clem .unit-speech.joel{
+  visibility: visible;
+  pointer-events: auto;
+  opacity: var(--fade);
+  color: var(--base-text);
+}
+body.erase-clem .unit-speech.joel:hover,
+body.erase-clem .unit-speech.joel.active{
+  opacity: 1;
+  color: var(--joel);
+}
+
+body.erase-joel .unit-speech.clementine{
+  visibility: visible;
+  pointer-events: auto;
+  opacity: var(--fade);
+  color: var(--base-text);
+}
+body.erase-joel .unit-speech.clementine:hover,
+body.erase-joel .unit-speech.clementine.active{
+  opacity: 1;
+  color: var(--clementine);
+}
+
+body.erase-clem .unit-speech.active,
+body.erase-joel .unit-speech.active{
+  visibility: hidden;
+  opacity: 0;
+}
+body.erase-clem .unit-speech.joel.active{
+  visibility: visible;
+  opacity: 1;
+}
+body.erase-joel .unit-speech.clementine.active{
+  visibility: visible;
+  opacity: 1;
+}
+
+.clem-ghost{ visibility: visible; }
+.joel-ghost{ visibility: visible; }
+body.erase-clem .clem-ghost{ visibility: hidden; }
+body.erase-joel .joel-ghost{ visibility: hidden; }
+
+/* =========================
+   RIGHT TIMELINE — FINAL
+   ========================= */
+
+:root{
+  --tl-right: 14px;
+  --tl-top: 83px;
+  --tl-bottom: 41px;
+
+  --tl-track-w: 7px;
+  --tl-track-color: #6F7573;
+
+  /* כמו הטוגל */
+  --tl-ui-bg: rgba(214,214,204,0.55);
+  --tl-ui-bg-hover: rgba(214,214,204,0.75);
+
+  --tl-text-color: #484D49;
+
+  --tl-handle-h: 49px;
+  --tl-handle-w: 7px;
+
+  --tl-gap: 8px;
+
+  --tl-bubble-h: 49px;
+  --tl-bubble-w-closed: 63px;
+  --tl-bubble-w-open: 129px;
+
+  --tl-radius-big: calc(var(--tl-bubble-h)/2);
+  --tl-radius-small: 2px;
+
+  --tl-font-size: 13px;
+
+  --tl-open-ms: 220ms;
+  --tl-open-ease: cubic-bezier(.2,.8,.2,1);
+
+  --tl-blur: 8px;
+}
+
+/* container */
+#timeline{
+  position: fixed;
+  top: var(--tl-top);
+  bottom: var(--tl-bottom);
+  right: var(--tl-right);
+
+  width: calc(var(--tl-track-w) + var(--tl-gap) + var(--tl-bubble-w-open) + 12px);
+
+  z-index: 1000005;
+  user-select: none;
+  pointer-events: none;
+}
+
+#timeline[hidden]{ display: none !important; }
+
+/* scrub area */
+#tlScrub{
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  touch-action: none;
+  pointer-events: auto;
+}
+
+/* track */
+#tlScrub::before{
+  content:"";
+  position:absolute;
+  right:0;
+  top:0;
+  bottom:0;
+  width:var(--tl-track-w);
+  background:var(--tl-track-color);
+  border-radius:999px;
+  pointer-events:none;
+}
+
+/* ================= HANDLE ================= */
+#tlHandle{
+  position:absolute;
+  right:0;
+
+  width:var(--tl-handle-w);
+  height:var(--tl-handle-h);
+
+  background:#D6D6CC;
+  border-radius:999px;
+
+  top:0;
+  transform:translateY(-50%);
+  transform-origin:right center;
+
+  pointer-events:auto;
+  touch-action:none;
+  cursor:grab;
+
+  z-index:10; /* ALWAYS ABOVE BUBBLE */
+}
+body.tl-dragging #tlHandle{ cursor:grabbing; }
+
+/* ================= BUBBLE ================= */
+#tlBubble{
+  position:absolute;
+  right:calc(100% + var(--tl-gap));
+  bottom:0;
+
+  height:var(--tl-bubble-h);
+  width:var(--tl-bubble-w-closed);
+
+  /* CHANGED: back to original bubble colors */
+  background:var(--tl-ui-bg);
+  backdrop-filter:blur(var(--tl-blur));
+  -webkit-backdrop-filter:blur(var(--tl-blur));
+
+  color:var(--tl-text-color);
+
+  border-radius:
+    var(--tl-radius-big) var(--tl-radius-big)
+    var(--tl-radius-small) var(--tl-radius-big);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transform-origin:right center;
+  transition:
+    width var(--tl-open-ms) var(--tl-open-ease),
+    background 160ms ease;
+
+  pointer-events:none; /* NEVER blocks hover */
+  z-index:5;
+}
+
+/* text inside bubble — CLEAN, NO BACKGROUND */
+#tlPlay{
+  font-family:"DazzedMedium","DazzedRegular",system-ui,sans-serif;
+  font-size:var(--tl-font-size);
+  line-height:1;
+  letter-spacing:0.02em;
+  color:var(--tl-text-color);
+
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  outline:none;
+
+  padding:0;
+  margin:0;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  user-select:none;
+  pointer-events:none;
+}
+
+/* ================= OPEN STATES ================= */
+#timeline.is-open #tlBubble,
+#tlScrub:hover #tlBubble,
+body.tl-dragging #timeline #tlBubble{
+  width:var(--tl-bubble-w-open);
+
+  /* CHANGED: back to original bubble hover */
+  background:var(--tl-ui-bg-hover);
+}
+
+/* Neutralize any old rule that tied bubble to handle hover */
+#tlHandle:hover #tlBubble{
+  width:var(--tl-bubble-w-closed) !important;
+}
+
+/* Scene dropdown */
+#tlSceneMenu{
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: var(--sceneMenuW, auto);
+  padding: 12px 12px;
+  border-radius: 22px;
+
+  background: var(--pill-bg);
+  backdrop-filter: blur(var(--pill-blur));
+  -webkit-backdrop-filter: blur(var(--pill-blur));
+
+  border: 0;
+  box-shadow: none;
+  outline: none;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+
+  z-index: 1000003;
+}
+
+#tlSceneMenu button{
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 100%;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+
+  background: transparent;
+  border-radius: 999px;
+  padding: 10px 0;
+
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+
+  color: rgba(6, 21, 24, 0.62);
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  transition: background 120ms linear, color 120ms linear, transform 120ms ease;
+}
+#tlSceneMenu button:hover{
+  background: var(--pill-bg-hover);
+  color: rgba(6, 21, 24, 0.92);
+}
+#tlSceneMenu button:active{ transform: translateY(1px); }
+#tlSceneMenu[hidden]{ display: none !important; }
+
+/* 20px אחרי התסריט */
+.credits-gap{ height: 20px; }
+
+/* =========================
+   CREDITS — FIXED
+   ========================= */
+body.credits-open{
+  overflow: hidden !important;
+  height: 100%;
+}
+
+#creditsLayer{
+  position: fixed;
+  inset: 0;
+  z-index: 2000000;
+  background: var(--credits-bg);
+
+  transform: translateY(100%);
+  will-change: transform;
+  transition: transform 180ms linear;
+
+  pointer-events: none;
+  overflow: hidden;
+}
+body.credits-open #creditsLayer{
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#credits{
+  position: absolute;
+  inset: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+#credits .credits-inner{
+  position: relative;
+  box-sizing: border-box;
+
+  padding-top: var(--credits-top);
+  padding-right: var(--credits-right);
+  padding-bottom: 160px;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-size: var(--credits-size);
+  line-height: var(--credits-lh);
+  letter-spacing: var(--credits-track);
+  color: var(--credits-fg);
+}
+
+#credits .credits-line{
+  display: block;
+  white-space: nowrap;
+}
+
+.credits-spacer{ height: 1.2em; }
+
+/* =========================
+   HERO ENTRY — FIGMA LAYOUT
+   ========================= */
+.hero.hero-entry{
+  position: relative;
+  height: 100vh;
+  background: var(--paper);
+  overflow: hidden;
+
+  --obj-x: 1vw;
+  --obj-y: -3vh;
+  --obj-w: 60px;
+
+  --obj2-x: 38vw;
+  --obj2-y: 45vh;
+  --obj2-w: -40px;
+  --obj2-rot: 1deg;
+
+  --obj-ar: 16 / 10;
+  --obj2-ar: 16 / 10;
+
+  --im-x: 1vw;     --im-y: 0vh;
+  --eras-x: 2vw;   --eras-y: 1vh;
+  --you-x: 4vw;    --you-y: -5vh;
+  --and-x: 0vw;    --and-y: 0vh;
+  --happy-x: -2vw; --happy-y: -5vh;
+
+  --vid-x: 1vw;
+  --vid-y: -1vh;
+  --vid-w: -20px;
+
+  --draft-x: -2vw;  --draft-y: -2vh;
+  --bottom-x: 3vw;  --bottom-y: -1vh;
+
+  --swap-fade: 180ms;
+}
+
+.hero.hero-entry .hero-scene-label{
+  position: absolute;
+  left: var(--hero-scene-x);
+  top: var(--hero-scene-y);
+
+  font-family: var(--ui-font);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: rgba(0,0,0,0.45);
+
+  pointer-events: none;
+  user-select: none;
+
+  z-index: 6;
+}
+
+.hero.hero-entry video,
+.hero.hero-entry .hero-video{
+  position: absolute !important;
+  inset: 0 !important;
+  transform: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.hero.hero-entry .hero-type{ z-index: 1; }
+.hero.hero-entry .hero-object{ z-index: 2; }
+.hero.hero-entry .hero-object2{ z-index: 2; }
+.hero.hero-entry .hero-meta{ z-index: 4; }
+.hero.hero-entry .hero-videoFrame{ z-index: 10; }
+
+.hero.hero-entry .hero-object{
+  --obj-x-use: var(--obj-x);
+  --obj-y-use: var(--obj-y);
+
+  position: absolute;
+  left: calc(12.2vw + var(--obj-x-use));
+  top:  calc(13.6vh + var(--obj-y-use));
+  width: calc(min(17vw, 320px) + var(--obj-w));
+  margin: 0;
+
+  pointer-events: auto;
+
+  aspect-ratio: var(--obj-ar);
+  display: block;
+  line-height: 0;
+
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.hero.hero-entry .hero-object:hover{
+  --obj-x-use: var(--obj-x-hover, var(--obj-x));
+  --obj-y-use: var(--obj-y-hover, var(--obj-y));
+}
+
+.hero.hero-entry .hero-object2{
+  --obj2-x-use: var(--obj2-x);
+  --obj2-y-use: var(--obj2-y);
+  --obj2-rot-use: var(--obj2-rot);
+
+  position: absolute;
+  left: calc(12.2vw + var(--obj2-x-use));
+  top:  calc(13.6vh + var(--obj2-y-use));
+  width: calc(min(17vw, 320px) + var(--obj2-w));
+  margin: 0;
+
+  pointer-events: auto;
+
+  aspect-ratio: var(--obj2-ar);
+  display: block;
+  line-height: 0;
+
+  transform-origin: center;
+  transform: rotate(var(--obj2-rot-use)) translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.hero.hero-entry .hero-object2:hover{
+  --obj2-x-use: var(--obj2-x-hover, var(--obj2-x));
+  --obj2-y-use: var(--obj2-y-hover, var(--obj2-y));
+  --obj2-rot-use: var(--obj2-rot-hover, var(--obj2-rot));
+}
+
+.hero.hero-entry .hero-object img,
+.hero.hero-entry .hero-object2 img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+}
+
+.hero.hero-entry .hero-type{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero.hero-entry .hero-type .w{
+  position: absolute;
+  font-family: var(--hero-font);
+  font-weight: 800;
+  color: rgba(0,0,0,0.92);
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+  white-space: nowrap;
+  font-size: clamp(90px, 10.2vw, 150px);
+}
+
+.hero.hero-entry .w-im{
+  left: calc(49.2vw + var(--im-x));
+  top:  calc(10.8vh + var(--im-y));
+  transform: translateX(-50%);
+}
+.hero.hero-entry .w-erasing{
+  left: calc(11.2vw + var(--eras-x));
+  top:  calc(27.6vh + var(--eras-y));
+}
+.hero.hero-entry .w-you{
+  left: calc(76.6vw + var(--you-x));
+  top:  calc(33.2vh + var(--you-y));
+  transform: translateX(-50%);
+}
+.hero.hero-entry .w-and{
+  left: calc(44.2vw + var(--and-x));
+  top:  calc(50.8vh + var(--and-y));
+  transform: translateX(-50%);
+}
+.hero.hero-entry .w-happy{
+  left: calc(66.2vw + var(--happy-x));
+  top:  calc(73.4vh + var(--happy-y));
+  transform: translateX(-50%);
+}
+
+.hero.hero-entry .hero-videoFrame{
+  position: absolute;
+  left: calc(59.4vw + var(--vid-x));
+  top:  calc(39.4vh + var(--vid-y));
+  transform: translate(-50%, -50%);
+  width: calc(clamp(300px, 20vw, 480px) + var(--vid-w));
+  aspect-ratio: 16 / 9;
+  background: rgba(0,0,0,0.10);
+  border: 0;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.10);
+  overflow: hidden;
+
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.hero.hero-entry .hero-videoFrame video{
+  pointer-events: none;
+}
+
+.hero.hero-entry .hero-meta{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-family: var(--ui-font);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: rgba(0,0,0,0.45);
+}
+
+.hero.hero-entry .hero-draft{
+  position: absolute;
+  right: calc(22vw + var(--draft-x));
+  top:   calc(57.8vh + var(--draft-y));
+}
+
+.hero.hero-entry .hero-bottom-center{
+  position: absolute;
+  left: calc(31.2% + var(--bottom-x));
+  bottom: calc(23.6vh + var(--bottom-y));
+  transform: translateX(-50%);
+}
+
+@media (min-width: 1600px){
+  .hero.hero-entry .w-you{ left: calc(82vw + var(--you-x)); }
+  .hero.hero-entry .hero-videoFrame{ left: calc(56vw + var(--vid-x)); }
+}
+
+.hero.hero-entry .hero-object img.hero-swap-hover,
+.hero.hero-entry .hero-object2 img.hero-swap-hover{
+  opacity: 0;
+  transition: opacity var(--swap-fade) ease;
+}
+
+.hero.hero-entry .hero-object img.hero-swap-normal,
+.hero.hero-entry .hero-object2 img.hero-swap-normal{
+  opacity: 1;
+  transition: opacity var(--swap-fade) ease;
+}
+
+.hero.hero-entry .hero-object:hover img.hero-swap-normal{ opacity: 0; }
+.hero.hero-entry .hero-object:hover img.hero-swap-hover{  opacity: 1; }
+
+.hero.hero-entry .hero-object2:hover img.hero-swap-normal{ opacity: 0; }
+.hero.hero-entry .hero-object2:hover img.hero-swap-hover{  opacity: 1; }
+
+body.erase-clem .hero.hero-entry .hero-object,
+body.erase-clem .hero.hero-entry .hero-object2,
+body.erase-joel .hero.hero-entry .hero-object,
+body.erase-joel .hero.hero-entry .hero-object2{
+  display: none !important;
+}
+
+body.erase-clem .hero.hero-entry .hero-scene-label,
+body.erase-joel .hero.hero-entry .hero-scene-label{
+  display: block
+}
+
+body.erase-clem .hero.hero-entry .w-you{
+  transform: translateX(calc(-50% + 3vw));
+}
+
+/* שמות ליד הטוגל */
+.modebar-name{
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+/* ברגע שהתחלנו לגלול */
+body.scrolled .modebar-name{
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
+/* טקסטי פתיחה */
+.hero.hero-entry .hero-type{
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+
+/* כשהמשתמש התחיל לגלול */
+body.scrolled .hero.hero-entry .hero-type{
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}
+
+/* טקסטים קטנים ב-hero */
+.hero.hero-entry .hero-meta,
+.hero.hero-entry .hero-scene-label{
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+
+/* נעלמים אחרי גלילה */
+body.scrolled .hero.hero-entry .hero-meta,
+body.scrolled .hero.hero-entry .hero-scene-label{
+  opacity: 0;
+  transform: translateY(-14px);
+  pointer-events: none;
+}
+
+/* ================= TOP ROW: ONE LINE FIX ================= */
+
+/* תוודאי של-topbar יש מרכז אנכי אחיד */
+.topbar{
+  align-items: center !important;
+}
+
+/* המרכז צריך להיות באמת מרכז בין שמאל לימין */
+.topbar-center{
+  flex: 1 1 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none; /* כמו שהיה אצלך בטופבר */
+}
+.topbar-center *{
+  pointer-events: auto;
+}
+
+/* הכי חשוב: modebar לא fixed (אחרת הוא "שורה אחרת") */
+.modebar{
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+
+  padding: 0 !important;
+  width: auto !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important; /* אם תרצי יותר/פחות רווחים בין שם-טוגל-שם */
+}
+
+/* כולם באותו גובה קו: 26px (גובה הטוגל) */
+.modebar-switch.tri{ height: 26px !important; }
+
+.modebar-name{
+  height: 26px !important;
+  display: flex !important;
+  align-items: center !important;
+  line-height: 1 !important;
+}
+
+/* גם [159] (tlScene) מיושר לגובה 26px */
+#tlScene{
+  height: 26px !important;
+  padding: 0 14px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* אם "timeline" הוא טקסט רגיל (לא כפתור), זה יישר אותו */
+.topbar-right,
+.topbar-left{
+  display: flex !important;
+  align-items: center !important;
+  height: 26px !important;
+}
+
+/* רווח אחיד בין השמות לטוגל */
+.modebar{
+  gap: 3px !important; /* תשני ל-4 / 8 לפי כמה קרוב את רוצה */
+}
+
+/* top left site title instead of scene number */
+.site-title{
+  position: fixed;
+  top: 28px;
+  left: 18px;
+  z-index: 1000001;
+
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: rgba(6, 21, 24, 0.55);
+
+  pointer-events: none;
+  user-select: none;
+
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+/* נעלם בגלילה כמו שמות הטוגל */
+body.scrolled .site-title{
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+/* clickable site title */
+.site-title{
+  position: fixed;
+  top: 28px;
+  left: 18px;
+  z-index: 1000007;
+
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-size: 13px;            /* אותו גודל */
+  letter-spacing: 0.02em;
+  line-height: 1;
+
+  color: rgba(6, 21, 24, 0.55);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition: opacity 220ms ease, transform 220ms ease, color 160ms ease;
+}
+
+.site-title:hover{
+  color: rgba(6, 21, 24, 0.85);
+}
+
+/* במקום להיעלם — להפוך לחץ */
+body.scrolled .site-title{
+  color: rgba(6, 21, 24, 0.75);
+}
+
+/* הטקסט מתחלף לחץ בעזרת pseudo-element */
+body.scrolled .site-title{
+  position: fixed;
+}
+
+/* מסתיר את הטקסט המקורי בלי לשנות גודל/מיקום */
+body.scrolled .site-title{
+  color: transparent;
+}
+
+/* מצייר את החץ באותו "גודל טקסט" */
+body.scrolled .site-title::after{
+  content: "↑";
+  color: rgba(6, 21, 24, 0.75);
+  font-size: 13px;         /* אותו גודל כמו הטקסט */
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/* ===== SITE TITLE (TOP LEFT) ===== */
+#siteTitle.site-title{
+  position: fixed;
+  top: 28px;
+  left: 18px;
+  z-index: 1000008;
+
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+
+  color: rgba(6,21,24,0.55);
+
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto !important;
+
+  transition: all 180ms ease;
+}
+
+/* HOVER כמו timeline */
+#siteTitle.site-title:hover{
+  background: var(--pill-bg-hover);
+  backdrop-filter: blur(var(--pill-blur));
+  -webkit-backdrop-filter: blur(var(--pill-blur));
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: rgba(6,21,24,0.92);
+}
+
+/* ===== כשהתחלנו לגלול ===== */
+body.scrolled #siteTitle.site-title{
+  background: var(--pill-bg);
+  backdrop-filter: blur(var(--pill-blur));
+  -webkit-backdrop-filter: blur(var(--pill-blur));
+  border-radius: 999px;
+  padding: 10px 14px;
+
+  color: rgba(6,21,24,0.75);
+}
+
+/* hover גם כשהוא במצב pill */
+body.scrolled #siteTitle.site-title:hover{
+  background: var(--pill-bg-hover);
+  color: rgba(6,21,24,0.92);
+}
+
+/* site title = same behavior as #tlMovieTime */
+#siteTitle{
+  appearance: none;
+  -webkit-appearance: none;
+
+  position: fixed;
+  top: 28px;
+  left: 18px;
+  z-index: 1000008;
+
+  /* בדיוק כמו tlMovieTime */
+  padding: 10px 14px;
+  background: var(--pill-bg);
+  backdrop-filter: blur(var(--pill-blur));
+  -webkit-backdrop-filter: blur(var(--pill-blur));
+  border-radius: 999px;
+
+  border: 0;
+  outline: none;
+  box-shadow: none;
+
+  color: rgba(6, 21, 24, 0.62);
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+}
+
+/* hover זהה לטיימליין */
+#siteTitle:hover{
+  background: var(--pill-bg-hover);
+  color: rgba(6, 21, 24, 0.92);
+}
+
+/* בגלילה — מסתירים את הטקסט המקורי ומציגים ↑ באותו סטייל */
+body.scrolled #siteTitle{
+  color: transparent;
+}
+
+body.scrolled #siteTitle::after{
+  content: "↑";
+  color: rgba(6, 21, 24, 0.62);
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/* ===== Site title button (like timeline button) ===== */
+#siteTitle{
+  appearance: none;
+  -webkit-appearance: none;
+
+  position: fixed;
+  top: 28px;
+  left: 18px;
+  z-index: 1000008;
+
+  height: 36px;
+  padding: 0 18px;
+
+  background: var(--pill-bg);
+  backdrop-filter: blur(var(--pill-blur));
+  -webkit-backdrop-filter: blur(var(--pill-blur));
+  border-radius: 999px;
+
+  border: 0;
+  outline: none;
+  box-shadow: none;
+
+  color: rgba(6,21,24,0.62);
+  font-family: "DazzedRegular", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+
+  transition:
+    width 260ms cubic-bezier(.2,.8,.2,1),
+    padding 260ms cubic-bezier(.2,.8,.2,1),
+    border-radius 260ms cubic-bezier(.2,.8,.2,1),
+    background 160ms ease,
+    color 160ms ease;
+}
+
+/* hover כמו הטיימליין */
+#siteTitle:hover{
+  background: var(--pill-bg-hover);
+  color: rgba(6,21,24,0.92);
+}
+
+/* ===== מצב אחרי גלילה — הופך לעיגול ===== */
+body.scrolled #siteTitle{
+  width: 36px;           /* גובה = רוחב → עיגול */
+  padding: 0;            /* אין padding לטקסט */
+  border-radius: 50%;    /* עיגול מושלם */
+  color: transparent;    /* מסתיר את הטקסט */
+}
+
+/* החץ שמופיע בתוך העיגול */
+body.scrolled #siteTitle::after{
+  content: "↑";
+  color: rgba(6,21,24,0.72);
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ===== FIX: arrow centered INSIDE the circle + instant swap ===== */
+#siteTitle{
+  position: fixed; /* לוודא עוגן */
+}
+
+/* כשגוללים: מחליפים מייד לטקסט-חץ, בלי הבהוב */
+body.scrolled #siteTitle{
+  width: 36px !important;
+  height: 36px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+
+  /* במקום "להסתיר צבע" — מסתירים את התוכן עצמו */
+  font-size: 0 !important;
+  letter-spacing: 0 !important;
+}
+
+/* ממרכזים את החץ בתוך הכפתור */
+body.scrolled #siteTitle::after{
+  content: "↑";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+
+  font-size: 14px;
+  line-height: 1;
+  color: rgba(6,21,24,0.72);
+}
+
+/* NEW: round audio play/pause button — EXACT same as #tlMovieTime pill */
+#tlAudioBtn.tl-audio{
+  width: var(--tl-pill-h, 44px);
+  height: var(--tl-pill-h, 44px);
+  padding: 0;
+  border-radius: 999px;
+
+  /* CHANGED: match timeline pill */
+  background: var(--pill-bg);
+  backdrop-filter: blur(var(--pill-blur));
+  -webkit-backdrop-filter: blur(var(--pill-blur));
+
+  border: 0;
+  outline: none;
+  box-shadow: none;
+
+  display: inline-grid;
+  place-items: center;
+}
+
+#tlAudioBtn.tl-audio:hover{
+  /* CHANGED: same hover as timeline pill */
+  background: var(--pill-bg-hover);
+}
+
+/* icons */
+#tlAudioBtn .tl-ico{
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* CHANGED: icon uses same ink as #tlMovieTime text */
+#tlAudioBtn .tl-ico path{
+  fill: rgba(6, 21, 24, 0.62);
+}
+
+#tlAudioBtn.tl-audio:hover .tl-ico path{
+  fill: rgba(6, 21, 24, 0.92);
+}
+
+/* make sure hidden really disappears */
+#tlAudioBtn[hidden]{
+  display: none;
+}
+
+/* spacing between play button and timeline pill */
+.topbar-right{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===== FIX: lock modebar (toggle + names) to true center, no shifting ===== */
+.topbar{
+  position: fixed; /* לוודא עוגן */
+}
+
+.topbar-center{
+  position: absolute !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+
+  width: max-content !important;
+  flex: 0 0 auto !important;      /* מנטרל תלות ב-space-between/רוחב צדדים */
+  pointer-events: none !important; /* כמו אצלך */
+}
+
+.topbar-center *{
+  pointer-events: auto !important;
+}
+
+/* Hide floating scene label that leaks near the credits gap */
+.tl-scene-state{
+  display: none !important;
+}
+
+/* HARD KILL: never show the hidden scene state anywhere */
+#tlScene,
+span#tlScene,
+#tlScene.tl-scene-state,
+.tl-scene-state{
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -99999px !important;
+  top: -99999px !important;
+}
+
+/* keep the gap exactly the same */
+#creditsGate{
+  position: relative; /* anchor for absolute child */
+}
+
+/* move ONLY the label */
+#creditsGate .the-end{
+  position: absolute;
+  left: 50%;
+  top: -400px;                 /* משחקת רק בזה */
+  transform: translateX(-50%);
+  font: 14px "DazzedRegular", sans-serif;
+
+}
+
+/* Bottom credits — stacked on the LEFT */
+.credits-bottom{
+  position: absolute;
+  bottom: 40px;
+  left: 60px;
+
+  display: flex;
+  flex-direction: column;   /* אחד מתחת לשני */
+  align-items: flex-start;  /* מיושר לשמאל */
+
+  gap: 1px;                 /* רווח קטן בין השורות */
+
+  font-family: "DazzedRegular", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* לא צריך יישור לימין יותר */
+.credits-right{
+  text-align: left;
+}
+
+

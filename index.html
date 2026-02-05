@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Script</title>
+</head>
+
+<body class="has-hero mode-mid">
+
+  <div class="topbar" aria-label="Top bar">
+    <div class="topbar-left" aria-label="Left slot">
+      <!-- אין יותר תפריט סצנות כאן -->
+      <button id="siteTitle" class="tl-time" type="button" aria-label="Back to top">
+        i’m erasing you and i’m happy
+      </button>
+    </div>
+
+    <div class="topbar-center">
+      <div class="modebar" aria-label="Mode toggle">
+        <span class="modebar-name left" aria-hidden="true">clementine</span>
+
+        <div class="modebar-switch tri">
+          <input id="modeToggle" type="range" min="0" max="2" step="1" value="1" aria-label="Mode">
+          <span class="modebar-track" aria-hidden="true"></span>
+          <span class="modebar-thumb" aria-hidden="true"></span>
+        </div>
+
+        <span class="modebar-name right" aria-hidden="true">joel</span>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <!-- NEW: round play/pause (hidden until timeline is open) -->
+      <button id="tlAudioBtn" class="tl-time tl-audio" type="button" aria-label="Play/Pause" hidden>
+        <svg id="tlAudioIcon" class="tl-ico" viewBox="0 0 24 24" aria-hidden="true">
+          <!-- PLAY (default) -->
+          <path d="M8 5v14l12-7z"></path>
+        </svg>
+      </button>
+
+      <button id="tlMovieTime" class="tl-time" type="button">00:00 / --:--</button>
+    </div>
+  </div>
+
+  <header class="hero hero-entry" id="hero" aria-label="Opening">
+
+    <!-- scene label ליד i'm (נעול, לא זז עם האובייקטים) -->
+    <span id="heroSceneLabel" class="hero-scene-label" aria-hidden="true">[11]</span>
+
+    <!-- object #1 -->
+    <figure class="hero-object" aria-hidden="true">
+      <img id="heroObject" class="hero-swap-normal" src="images/11_object.png" alt="" />
+      <img id="heroObjectHover" class="hero-swap-hover" src="images/11_object_empty.png" alt="" />
+    </figure>
+
+    <!-- object #2 -->
+    <figure class="hero-object2" aria-hidden="true">
+      <img id="heroObject2" class="hero-swap-normal" src="images/11_02_object.png" alt="" />
+      <img id="heroObject2Hover" class="hero-swap-hover" src="images/11_02_object_empty.png" alt="" />
+    </figure>
+
+    <!-- big type -->
+    <div class="hero-type" aria-hidden="true">
+      <span class="w w-im">i’m</span>
+      <span class="w w-erasing">erasing</span>
+      <span class="w w-you" id="youHover">you</span>
+      <span class="w w-and">and i’m</span>
+      <span class="w w-happy" id="happyHover">happy</span>
+    </div>
+
+    <!-- video frame (CLICK trigger lives here) -->
+    <div class="hero-videoFrame" aria-label="Scene video">
+      <video
+        id="entryVideo"
+        class="hero-video"
+        playsinline
+        muted
+        autoplay
+        loop
+        preload="auto"
+      >
+        <source src="video/11_eternalsunshine.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <div class="hero-meta" aria-hidden="true">
+      <div class="hero-bottom-center">[ETERNAL SUNSHINE OF THE SPOTLESS MIND]</div>
+      <div class="hero-draft">Shooting draft, 4 February, 2003</div>
+    </div>
+
+    <div class="hero-hint" aria-hidden="true"></div>
+  </header>
+
+  <section class="script-wrap" id="scriptWrap">
+    <main class="script">
+      <div class="text-block" id="script"></div>
+    </main>
+  </section>
+
+  <!-- UPDATED: THE END sits centered inside the gap -->
+  <div id="creditsGate" class="credits-gap" aria-hidden="true">
+    <div class="the-end">[the end]</div>
+  </div>
+
+  <section id="creditsLayer" aria-label="Film credits layer">
+    <div id="credits" class="credits"></div>
+  </section>
+
+  <audio id="sceneAudio" preload="auto">
+    <source src="audio/EternalSunshine_audio01.mp3" type="audio/mpeg">
+  </audio>
+
+  <span id="tlScene" class="tl-scene-state" aria-hidden="true" hidden>[159]</span>
+
+  <div id="timeline" class="timeline" aria-label="Timeline scrubber" hidden>
+    <div id="tlScrub" class="tl-scrub" aria-label="Timeline scrub">
+      <div id="tlHandle" class="tl-handle" aria-label="Scrub handle">
+        <div id="tlBubble" class="tl-bubble" aria-hidden="true">
+          <span id="tlPlay" class="tl-bubble-text">[159]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="syncAudio.js"></script>
+  <script src="loadScenes.js"></script>
+  <script src="creditsOverlay.js"></script>
+
+  <script src="timeline.js"></script>
+  <script src="modes.js"></script>
+  <script src="entryHero.js"></script>
+
+</body>
+</html>
